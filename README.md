@@ -38,8 +38,8 @@ $ composer require alexrili/vephar
 ## Usage
 
 ``` php
-$skeleton = new Hell\Vephar();
-echo $skeleton->echoPhrase('Hello, League!');
+$vephar = new Hell\Vephar();
+echo $vephar->make($response);
 ```
 
 ## Change log
