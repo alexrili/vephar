@@ -71,8 +71,7 @@ class Response
         $data = [],
         string $resource = Resource::class,
         string $collection = Collection::class
-    )
-    {
+    ) {
         return (new Response($resource, $collection))->make($data);
     }
 
