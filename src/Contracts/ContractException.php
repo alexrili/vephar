@@ -3,7 +3,6 @@
 
 namespace Hell\Vephar\Contracts;
 
-
 use Throwable;
 
 class ContractException extends \Exception
