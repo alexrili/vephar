@@ -11,14 +11,12 @@
     "authors": [
         {
             "name": "Alex Ribeiro",
-            "email": "alexrili@gmail.com",
-            "homepage": "https://github.com/alexrili/vephar",
-            "role": "Developer"
+            "email": "alexrili@gmail.com"
         }
     ],
     "require": {
         "php": "~7.2",
-        "illuminate/support": "^5.0",
+        "illuminate/support": "^5.5 || ^6.0",
         "ext-json": "*"
     },
     "require-dev": {
