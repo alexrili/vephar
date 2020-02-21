@@ -20,6 +20,11 @@ class FakeApiRequest
                 "another_Array" => [
                     "company_name" => $faker->company,
                     "EMAIL" => $faker->email
+                ],
+                "true_array"=>[
+                    123,
+                    10,
+                    15
                 ]
             ];
         }

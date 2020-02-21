@@ -60,7 +60,7 @@ abstract class ResourceContract
      */
     protected function getValue($value)
     {
-        if (!is_array($value)) {
+        if (!is_array($value) || !is_object_array($value)) {
             return $value;
         }
         return Response::resource($value);
