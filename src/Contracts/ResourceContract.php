@@ -8,11 +8,11 @@ use Hell\Vephar\Response;
 abstract class ResourceContract
 {
 
+
     /**
      * ResourceContract constructor.
-     * @param array $data
+     * @param $data
      * @param bool $setters
-     * @throws \Throwable
      */
     public function __construct($data, $setters = true)
     {
@@ -38,7 +38,6 @@ abstract class ResourceContract
 
     /**
      * @param $data
-     * @throws \Throwable
      */
     protected function byDinamicallyAttribute($data)
     {
@@ -48,6 +47,10 @@ abstract class ResourceContract
         }
     }
 
+    /**
+     * @param $data
+     * @return ResourceContract
+     */
     protected function toObject($data)
     {
         if (is_object($data)) {
@@ -66,7 +69,6 @@ abstract class ResourceContract
     /**
      * @param $value
      * @return mixed
-     * @throws \Throwable
      */
     protected function getValue($value)
     {

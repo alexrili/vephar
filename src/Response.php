@@ -93,6 +93,10 @@ class Response
     }
 
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     protected function toResource($data)
     {
         return new $this->resource($data);
