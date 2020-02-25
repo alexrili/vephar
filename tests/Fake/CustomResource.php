@@ -4,8 +4,6 @@
 namespace Hell\Vephar\Fake;
 
 
-
-
 use Hell\Vephar\Contracts\ResourceContract;
 
 /**
@@ -29,7 +27,7 @@ class CustomResource extends ResourceContract
      */
     public function setName($name): void
     {
-        $this->name = $name["name"] ?? null;
+        $this->name = $name->name ?? null;
     }
 
     /**
@@ -37,7 +35,7 @@ class CustomResource extends ResourceContract
      */
     public function setAddress($address): void
     {
-        $this->address = $address["address"] ?? null;
+        $this->address = $address->address ?? null;
     }
 
 }

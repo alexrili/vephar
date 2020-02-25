@@ -92,11 +92,12 @@ class Response
         return (new Response($resource))->make($data);
     }
 
+
     /**
-     * @param array $data
+     * @param $data
      * @return mixed
      */
-    protected function toResource(array $data)
+    protected function toResource($data)
     {
         return new $this->resource($data);
     }
@@ -108,9 +109,10 @@ class Response
      */
     public function make($data)
     {
-        if (Arr::isAssoc($data)) {
+        if (Arr::isAssoc((array)$data)) {
             return $this->toResource($data);
         }
+
         return $this->toCollect($data);
     }
 }
