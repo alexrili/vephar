@@ -3,9 +3,6 @@
 
 namespace Hell\Vephar;
 
-use Hell\Vephar\Contracts\CollectionContract;
-use Hell\Vephar\Contracts\ContractException;
-use Hell\Vephar\Contracts\ResourceContract;
 use Illuminate\Support\Arr;
 
 /**
@@ -30,7 +27,6 @@ class Response
      * Response constructor.
      * @param string $resource
      * @param string $collection
-     * @throws \Throwable
      */
     public function __construct(string $resource = Resource::class, string $collection = Collection::class)
     {
@@ -40,22 +36,18 @@ class Response
 
     /**
      * @param string $resource
-     * @throws \Throwable
      */
     public function setResource(string $resource): void
     {
-        throw_unless((new $resource instanceof ResourceContract), new ContractException(ResourceContract::class));
         $this->resource = $resource;
     }
 
 
     /**
      * @param string $collection
-     * @throws \Throwable
      */
     public function setCollection(string $collection): void
     {
-        throw_unless((new $collection instanceof CollectionContract), new ContractException(CollectionContract::class));
         $this->collection = $collection;
     }
 
@@ -65,7 +57,6 @@ class Response
      * @param string $resource
      * @param string $collection
      * @return mixed
-     * @throws \Throwable
      */
     public static function collection(
         $data = [],
@@ -95,7 +86,6 @@ class Response
      * @param array $data
      * @param string $resource
      * @return mixed
-     * @throws \Throwable
      */
     public static function resource($data = [], string $resource = Resource::class)
     {
