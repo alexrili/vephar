@@ -5,10 +5,6 @@ namespace Hell\Vephar\Contracts;
 
 use Hell\Vephar\Response;
 
-/**
- * Class ResourceContract
- * @package Hell\Vephar\Contracts
- */
 abstract class ResourceContract
 {
 
@@ -18,7 +14,7 @@ abstract class ResourceContract
      * @param bool $setters
      * @throws \Throwable
      */
-    public function __construct($data = [], $setters = true)
+    public function __construct($data, $setters = true)
     {
         if ($setters) {
             $this->bySetMethod($data);
@@ -35,7 +31,7 @@ abstract class ResourceContract
     {
         $setMethods = preg_grep("/^set/", get_class_methods($this));
         foreach ($setMethods as $method) {
-            $this->{$method}($data);
+            $this->{$method}($this->toObject($data));
         }
     }
 
@@ -50,6 +46,20 @@ abstract class ResourceContract
             $attributeName = toCamelCase($attribute);
             $this->{$attributeName} = $this->getValue($value);
         }
+    }
+
+    protected function toObject($data)
+    {
+        if (is_object($data)) {
+            return $data;
+        }
+
+        $object = clone $this;
+        foreach ($data as $attribute => $value) {
+            $attributeName = toCamelCase($attribute);
+            $object->{$attributeName} = $value;
+        }
+        return $object;
     }
 
 

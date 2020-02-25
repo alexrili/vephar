@@ -61,4 +61,14 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf($customCollection, Response::collection($dataAll, $resource, $customCollection));
         $this->assertInstanceOf($customCollection, (new Response($resource, $customCollection))->make($dataAll));
     }
+
+    /** @test */
+    public function shouldAcceptObjectAndReturnObject()
+    {
+        $dataOne = FakeApiRequest::getOne();
+        $resource = Response::resource($dataOne);
+        $customResource = CustomResource::class;
+        $this->assertInstanceOf($customResource, Response::resource($resource, $customResource));
+    }
+
 }

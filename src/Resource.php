@@ -10,7 +10,7 @@ use Hell\Vephar\Contracts\ResourceContract;
  */
 class Resource extends ResourceContract
 {
-    public function __construct($data = [], $setters = false)
+    public function __construct($data, $setters = false)
     {
         parent::__construct($data, $setters);
     }
