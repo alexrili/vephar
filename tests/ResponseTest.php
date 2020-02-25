@@ -45,7 +45,6 @@ class ResponseTest extends TestCase
     {
         $dataOne = FakeApiRequest::getOne();
         $customResource = CustomResource::class;
-
         $this->assertInstanceOf($customResource, Response::resource($dataOne, $customResource));
         $this->assertInstanceOf($customResource, Response::collection($dataOne, $customResource));
         $this->assertInstanceOf($customResource, (new Response($customResource))->make($dataOne));
@@ -57,7 +56,6 @@ class ResponseTest extends TestCase
         $dataAll = FakeApiRequest::getAll();
         $resource = Resource::class;
         $customCollection = CustomCollection::class;
-
         $this->assertInstanceOf($customCollection, Response::collection($dataAll, $resource, $customCollection));
         $this->assertInstanceOf($customCollection, (new Response($resource, $customCollection))->make($dataAll));
     }
@@ -70,5 +68,4 @@ class ResponseTest extends TestCase
         $customResource = CustomResource::class;
         $this->assertInstanceOf($customResource, Response::resource($resource, $customResource));
     }
-
 }

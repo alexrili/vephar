@@ -24,17 +24,35 @@ abstract class ResourceContract
         return;
     }
 
-    /**
-     * @param $data
-     */
-    protected function bySetMethod($data)
+    public function bySetMethod($data)
     {
-        $setMethods = preg_grep("/^set/", get_class_methods($this));
-        foreach ($setMethods as $method) {
-            $this->{$method}($this->toObject($data));
+        $data = $this->arrayIndexToCamelCase($data);
+        $object = $this;
+        $methods = get_class_methods($object);
+        foreach ($methods as $method) {
+            preg_match(' /^(set)(.*?)$/i', $method, $results);
+            $setMethod = $results[1] ?? '';
+            $attritbuteName = toCamelCase($results[2] ?? '');
+            if ($setMethod == 'set' && !empty($data[$attritbuteName])) {
+                $object->$method($this->getValue($data[$attritbuteName]));
+            }
         }
+        return $object;
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
+    protected function arrayIndexToCamelCase($data = [])
+    {
+        $newData = [];
+        foreach ($data as $attribute => $value) {
+            $attributeName = toCamelCase($attribute);
+            $newData[$attributeName] = $value;
+        }
+        return $newData;
+    }
 
     /**
      * @param $data
@@ -46,25 +64,6 @@ abstract class ResourceContract
             $this->{$attributeName} = $this->getValue($value);
         }
     }
-
-    /**
-     * @param $data
-     * @return ResourceContract
-     */
-    protected function toObject($data)
-    {
-        if (is_object($data)) {
-            return $data;
-        }
-
-        $object = clone $this;
-        foreach ($data as $attribute => $value) {
-            $attributeName = toCamelCase($attribute);
-            $object->{$attributeName} = $value;
-        }
-        return $object;
-    }
-
 
     /**
      * @param $value

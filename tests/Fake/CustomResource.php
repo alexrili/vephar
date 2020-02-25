@@ -3,7 +3,6 @@
 
 namespace Hell\Vephar\Fake;
 
-
 use Hell\Vephar\Contracts\ResourceContract;
 
 /**
@@ -23,11 +22,25 @@ class CustomResource extends ResourceContract
     public $address;
 
     /**
+     * @var
+     */
+    public $anotherArray;
+
+    /**
+     * @var
+     */
+    public $trueArray;
+
+    /**
+     * @var
+     */
+    public $lastName;
+    /**
      * @param mixed $name
      */
     public function setName($name): void
     {
-        $this->name = $name->name ?? null;
+        $this->name = $name;
     }
 
     /**
@@ -35,7 +48,30 @@ class CustomResource extends ResourceContract
      */
     public function setAddress($address): void
     {
-        $this->address = $address->address ?? null;
+        $this->address = $address;
     }
 
+    /**
+     * @param mixed $anotherArray
+     */
+    public function setAnotherArray($anotherArray): void
+    {
+        $this->anotherArray = $anotherArray;
+    }
+
+    /**
+     * @param mixed $trueArray
+     */
+    public function setTrueArray($trueArray): void
+    {
+        $this->trueArray = $trueArray;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
 }

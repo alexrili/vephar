@@ -1,16 +1,15 @@
 <?php
 
 if (!function_exists("toCamelCase")) {
-    function toCamelCase($string, $capitalizeFirstCharacter = false)
+    function toCamelCase($str)
     {
-
-        $str = str_replace('_', '', ucwords($string, '_'));
-
-        if (!$capitalizeFirstCharacter) {
-            $str = lcfirst($str);
-        }
-
-        return $str;
+        $str = ctype_upper($str) ? strtolower($str) : $str;
+        $str =  preg_replace_callback('/_([a-z])/', "_strToUpper", $str);
+        return lcfirst(str_replace("_", "", $str));
+    }
+    function _strToUpper($letter)
+    {
+         return strtoupper($letter[1]);
     }
 }
 
