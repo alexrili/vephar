@@ -1,3 +1,4 @@
+
 # vephar
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
@@ -7,24 +8,10 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Alex Ribeiro``` ```alexrili``` ```https://github.com/alexrili``` ```alexrili``` ```alexrili``` ```vephar``` ```Small abstraction of api requests and transform responses in collections``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+**vephar** vephar is a simple library that transform you arrays in collections/resources.
 
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-build/
-docs/
-config/
-src/
-tests/
-vendor/
-```
+**Note:** vephar uses `illuminate/support` under the hood. If you are using laravel or lumen framework, make sure that you version is  **>= 5.5**  until **6.x**, if you're not using any of this frameworks or this this dependency(illuminate/support) , than you have nothing to worry. 
 
 
 ## Install
@@ -35,11 +22,192 @@ Via Composer
 $ composer require alexrili/vephar
 ```
 
-## Usage
-
+## Usage (Automatic way)
+The **vephar** will transform your arrays(and the nested as well) in collections of resources automatically. Every index of your array will be a new attribute of your new collection/resource(object).
 ``` php
-$vephar = new Hell\Vephar();
-echo $vephar->make($response);
+use Hell\Vephar\Response;
+
+#can be a response from api request
+$array = [
+	"title" => "my title",  
+	"EMAIL" => "my@email.com",  
+	"nested_Array" => [  
+		"address" => "street 10",  
+		"postal_code" => 1234  
+	],  
+	"true_array" => [  
+		123,  
+		10,  
+		15  
+	]
+]
+
+# Instantiating (recommended)
+$vephar = new Response();
+$vephar->make($array);
+
+# Using static methods
+// Note: both of these methods check if you are passing a array of collection or a single resource. They will be resolved by themself.
+Response::resource($array); 
+Response::collection($array);
+```
+
+```
+#Return for collection will be
+class Hell\Vephar\Collection#73 (1) {
+  protected $items =>
+  array(1) {
+    [0] =>
+    class Hell\Vephar\Resource#71 (4) {
+      public $title =>
+      string(8) "my title"
+      public $email =>
+      string(12) "my@email.com"
+      public $nestedArray =>
+      class Hell\Vephar\Resource#72 (2) {
+	    public $address =>
+	    string(9) "street 10"
+	    public $postalCode =>
+	    int(1234)
+	  }
+      public $trueArray =>
+      array(3) {
+	    [0] =>
+	    int(123)
+	    [1] =>
+	    int(10)
+	    [2] =>
+	    int(15)
+	  }
+    }
+  }
+}
+```
+```
+#return for a single resource will be
+class Hell\Vephar\Resource#74 (4) {
+  public $title =>
+  string(8) "my title"
+  public $email =>
+  string(12) "my@email.com"
+  public $nestedArray =>
+  class Hell\Vephar\Resource#72 (2) {
+    public $address =>
+    string(9) "street 10"
+    public $postalCode =>
+    int(1234)
+  }
+  public $trueArray =>
+  array(3) {
+    [0] =>
+    int(123)
+    [1] =>
+    int(10)
+    [2] =>
+    int(15)
+  }
+}
+```
+## Usage (Custom way)
+The **vephar**  also allows you to assign your own collection and resource contracts to it.
+
+
+```php
+namespace Hell\Vephar\Fake;  
+
+use Hell\Vephar\Contracts\CollectionContract; 
+
+class CustomCollection extends CollectionContract  
+{  
+}
+```
+```php
+namespace Hell\Vephar\Fake;
+  
+use Hell\Vephar\Contracts\ResourceContract;  
+
+class CustomResource extends ResourceContract  
+{  
+	
+	/**  
+	* @var  
+	*/  
+	public $name;  
+	
+	/**  
+	* @var  
+	*/  
+	public $email;  
+
+
+	/**  
+	* @param mixed $email  
+	*/  
+	public function setName($name): void  
+	{  
+		$this->name = $name;  
+	}  
+	
+	/**  
+	* @param mixed $email  
+	*/  
+	public function setEmail($email): void  
+	{  
+		$this->email = $email;  
+	}  
+  }
+```
+```php
+use Hell\Vephar\Response;
+
+#can be a response from api request
+$array = [
+	"title" => "my title",  
+	"EMAIL" => "my@email.com",  
+	"nested_Array" => [  
+		"address" => "street 10",  
+		"postal_code" => 1234  
+	],  
+	"true_array" => [  
+		123,  
+		10,  
+		15  
+	]
+]
+
+# Instantiating (recommended)
+$vephar = new Response();
+$vephar->make($array, CustomResourceClass::class, CustomCollectionClass:class);
+
+# Using static methods
+// Note: both of these methods check if you are passing a array of collection or a single resource. They will be resolved by themself.
+Response::resource($array, CustomResourceClass::class); 
+Response::collection($array CustomResourceClass::class, CustomCollection::class);
+```
+*In this case the response will be your  own custom classes*
+```
+#Return for collection will be
+class Hell\Vephar\CustomCollection#73 (1) {
+  protected $items =>
+  array(1) {
+    [0] =>
+    class Hell\Vephar\Resource#71 (4) {
+      public $name =>
+      null(0) null
+      public $email =>
+      string(12) "my@email.com"
+    }
+  }
+}
+```
+```
+#return for a single resource will be
+class Hell\Vephar\CustomResource#74 (4) {
+  public $name =>
+  null(0) null
+  public $email =>
+  string(12) "my@email.com"
+}
 ```
 
 ## Change log
