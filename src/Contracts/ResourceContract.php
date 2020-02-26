@@ -7,8 +7,6 @@ use Hell\Vephar\Response;
 
 abstract class ResourceContract
 {
-
-
     /**
      * ResourceContract constructor.
      * @param $data
@@ -24,6 +22,10 @@ abstract class ResourceContract
         return;
     }
 
+    /**
+     * @param $data
+     * @return ResourceContract
+     */
     public function bySetMethod($data)
     {
         $data = $this->arrayIndexToCamelCase($data);
@@ -37,6 +39,11 @@ abstract class ResourceContract
                 $object->$method($this->getValue($data[$attritbuteName]));
             }
         }
+
+        if (method_exists($object, "setCustomAttributes")) {
+            $object->setCustomAttributes(new $this($data, false));
+        }
+
         return $object;
     }
 
@@ -82,6 +89,11 @@ abstract class ResourceContract
      */
     public function toArray(): array
     {
-        return get_object_vars($this);
+        $attributes = get_object_vars($this);
+        $newAttributes = [];
+        foreach ($attributes as $key => $value) {
+            $newAttributes[toSnakeCase($key)] = $value;
+        }
+        return $newAttributes;
     }
 }
