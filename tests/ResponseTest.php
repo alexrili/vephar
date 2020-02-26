@@ -4,6 +4,7 @@ namespace Hell\Vephar;
 
 use Hell\Vephar\Fake\CustomCollection;
 use Hell\Vephar\Fake\CustomResource;
+use Hell\Vephar\Fake\CustomResourceWithCustomAttributes;
 use Hell\Vephar\Fake\FakeApiRequest;
 
 class ResponseTest extends TestCase
@@ -67,5 +68,15 @@ class ResponseTest extends TestCase
         $resource = Response::resource($dataOne);
         $customResource = CustomResource::class;
         $this->assertInstanceOf($customResource, Response::resource($resource, $customResource));
+    }
+
+    /** @test */
+    public function shouldHaveCustomAttributeSetted()
+    {
+        $dataOne = FakeApiRequest::getOne();
+        $resource = Response::resource($dataOne);
+        $customResource = CustomResourceWithCustomAttributes::class;
+        $response = Response::resource($resource, $customResource);
+        $this->assertNotEmpty($response->myCustomAttribute);
     }
 }
