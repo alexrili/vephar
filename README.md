@@ -176,8 +176,8 @@ $array = [
 ]
 
 # Instantiating (recommended)
-$vephar = new Response();
-$vephar->make($array, CustomResourceClass::class, CustomCollectionClass:class);
+$vephar = new Response(CustomResourceClass::class, CustomCollectionClass:class);
+$vephar->make($array);
 
 # Using static methods
 // Note: both of these methods check if you are passing a array of collection or a single resource. They will be resolved by themself.
