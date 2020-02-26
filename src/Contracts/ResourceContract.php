@@ -33,7 +33,7 @@ abstract class ResourceContract
             preg_match(' /^(set)(.*?)$/i', $method, $results);
             $setMethod = $results[1] ?? '';
             $attritbuteName = toCamelCase($results[2] ?? '');
-            if ($setMethod == 'set' && !empty($data[$attritbuteName])) {
+            if ($setMethod == 'set' && isset($data[$attritbuteName])) {
                 $object->$method($this->getValue($data[$attritbuteName]));
             }
         }
